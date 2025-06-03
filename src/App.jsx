@@ -12,7 +12,7 @@ import {ThemeContextProvider} from './context/ThemeContext'
 import SingleProperty from './components/SIngleProperty'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
-import Header from './components/header'
+import Header from './components/Header'
 import AdminPage from './pages/AdminPage'
 import ThemeTransition from './components/ThemeTransition'
 
