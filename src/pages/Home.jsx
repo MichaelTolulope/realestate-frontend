@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { isCookie, useNavigate } from 'react-router'
-import houseBanner from '../assets/images/realestatePic.jpg'
+import {  useNavigate } from 'react-router'
+import houseBanner from '../assets/images/realEstatePic.jpg'
 import videoBanner from '../assets/videos/houseVid.mp4'
 import { FaPlay, FaSearch } from 'react-icons/fa'
 import 'swiper/css'
@@ -10,7 +10,6 @@ import 'swiper/css/navigation'
 import Footer from '../components/Footer'
 import Contact from '../components/Contact'
 import DiscoverProperties from '../components/DiscoverProperties'
-import LandingCarousel from '../components/LandingCarousel'
 
 const Home = () => {
   // SwiperCore.use([Navigation, Pagination, ]);
