@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import Header from "../components/header";
+import Header from "../components/Header";
 import PropertyCard from "../components/PropertyTile";
 import PropertyTileLoading from "../components/PropertyTileLoading";
 import Footer from "../components/Footer";

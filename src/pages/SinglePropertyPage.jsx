@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SingleProperty from '../components/SIngleProperty'
 import apartment from '../assets/images/housePic1.jpg'
-import Header from '../components/header'
+import Header from '../components/Header'
 import { useParams } from 'react-router'
 import { getSingleProperty } from '../apiRequests/apiCalls'
 import Footer from '../components/Footer'

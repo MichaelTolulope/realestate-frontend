@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { isCookie, useNavigate, useNavigation } from 'react-router'
-import Header from '../components/header'
+import Header from '../components/Header'
 import houseBanner from '../assets/images/realestatePic.jpg'
 import housePic1 from '../assets/images/housePic1.jpg'
 import housePic2 from '../assets/images/housePic.jpg'
