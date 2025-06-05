@@ -12,4 +12,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['../backend'], // Prevent backend files from being processed
   },
+   build: {
+    rollupOptions: {
+      external: ['recharts'], // Externalize recharts if absolutely necessary
+    },
+  },
 })
