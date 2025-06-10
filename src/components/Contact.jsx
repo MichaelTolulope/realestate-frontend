@@ -13,8 +13,8 @@ import { Navigation} from 'swiper/modules'
 const Contact = () => {
   return (
     <section>
-    <div className="bg-gray-800 text-white  flex sm:flex-col md:flex-row">
-      <div className='w-[750px] h-[550px] overflow-hidden sm:w-full md:w-[400px] lg:w-[750px]'>
+    <div className="bg-gray-800 text-white  flex flex-col md:flex-row">
+      <div className=' h-[550px] overflow-hidden w-full md:w-[400px] lg:w-[750px]'>
         <Swiper
         modules={[Navigation]}
         navigation={{

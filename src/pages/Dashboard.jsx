@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MiniCard from '../components/MiniCard'
 import { FaEye, FaShare } from 'react-icons/fa'
 import AddProperty from './AddProperty'
-import RevenueChart from '../components/RevenueChart'
+// import RevenueChart from '../components/RevenueChart'
 import { useTheme } from '../context/ThemeContext'
 
 const Dashboard = () => {
@@ -51,7 +51,7 @@ const Dashboard = () => {
                 }
                 
             </div>
-            <RevenueChart/>
+            {/* <RevenueChart/> */}
             {showAddListingForm && <AddProperty show={setShowAddListingPage} setSuccess={setSuccess} />
             }
 
