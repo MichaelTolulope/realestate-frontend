@@ -77,7 +77,7 @@ const Properties = () => {
   return (
     <div className="box-border">
       {/* <Header /> */}
-      <div className="px-8">
+      <div className="px-3 md:px-8">
         <form className="flex justify-between gap-16 w-full mx-auto py-7 border-b-2 sm:flex-col md:flex-col lg:flex-row ">
           <div className="lg:w-[70%] gap-4 container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-auto">
             <div className="flex-1 flex flex-col gap-2">

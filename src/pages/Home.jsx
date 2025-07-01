@@ -62,12 +62,12 @@ const Home = () => {
       {/* <LandingCarousel/> */}
 
       {/* Hero Section */}
-      <section className=" py-16">
+      <section className="py-14 md:py-16">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-semibold mb-4">
+          <h1 className="text-3xl md:text-5xl font-semibold mb-4">
             Guiding your path <br /> to a new home in <span className="text-gray-700">Lagos, Nigeria.</span>
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 text-[16px] md:text-[20px] md:max-w-2xl mx-auto">
             Discover your dream home with our expert guidance and the best property listings.
           </p>
         </div>
@@ -75,7 +75,7 @@ const Home = () => {
 
       <section className='relative w-[95%] m-auto mb-10 flex flex-col gap-5'>
         {/* Property Search */}
-        <div className=' h-[350px] rounded-3xl py-5 px-10 '
+        <div className=' h-[250px] md:h-[350px] rounded-3xl py-5 px-10'
           style={{
             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url('${houseBanner}')`,
             backgroundSize: 'cover',
@@ -83,8 +83,8 @@ const Home = () => {
           }}
         >
         </div>
-        <div className="w-full md:px-6 sm:px-0 md:absolute lg:absolute bottom-7 ">
-          <form onSubmit={handleSearch} className="flex flex-wrap justify-between gap-4 w-full  bg-white rounded-2xl shadow-lg py-5 px-10">
+        <div className="w-full md:px-6 px-0 md:absolute lg:absolute bottom-7 ">
+          <form onSubmit={handleSearch} className="flex flex-wrap justify-between gap-4 w-full  bg-white rounded-2xl shadow-lg py-5 px-2 md:px-10">
             <div className=' w-full gap-4 container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 overflow-auto '>
               <div className="flex-1 flex flex-col gap-2">
                 <label htmlFor="search">Looking For?</label>
@@ -146,7 +146,7 @@ const Home = () => {
       </section>
       {/* Video Section */}
       <section
-        className="py-16 w-full group mt-20"
+        className="py-16 w-full group md:mt-20"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -165,7 +165,7 @@ const Home = () => {
 
             {/* Play Button Overlay */}
             <div className="absolute inset-0 flex  items-center justify-center ">
-              <button className="absolute bg-grey-400 p-6 rounded-full shadow-md border-2 group-hover:hidden">
+              <button className="absolute bg-grey-400 p-6 rounded-full shadow-md group-hover:hidden">
                 <FaPlay className='text-white' />
               </button>
               <div className='flex justify-between w-full px-10 self-end items-center mb-20 flex-col lg:flex-row md:flex-row sm:flex-col sm:gap-5 '>

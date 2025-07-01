@@ -26,12 +26,12 @@ const DiscoverProperties = () => {
         fetchProperties();
     }, []);
     return (
-        <div className='px-8'>
+        <div className='px-3 md:px-8'>
             <h2 className="text-4xl font-semibold my-8 ">
                 Discover Our Property Listings
             </h2>
             {/* Properties */}
-            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16'>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16 place-items-center'>
                 {/* Render Property Cards */}
                 {
                     isLoading
