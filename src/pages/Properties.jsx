@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import { getAllProperties, getAllPropertiesFiltered } from "../apiRequests/apiCalls.js";
 import { useLocation } from "react-router";
+import supabase from "../util/supabase.js";
 
 const Properties = () => {
   const [filterDropdown, setFilterDropdown] = useState(false);
@@ -15,37 +16,54 @@ const Properties = () => {
   const [city, setCity] = useState();
   const [price, setPrice] = useState();
   const [filters, setFilters] = useState();
+  const [returnedProperties, setReturnedProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
   const location = useLocation()
-  
-useEffect(() => {
-  // Check if location.state exists and is an object
-  if (location.state) {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      ...location.state, // Merge the filters from location.state
-    }));
-  }
-}, [location.state]); 
-  
+
+  useEffect(() => {
+    // Check if location.state exists and is an object
+    if (location.state) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        ...location.state, // Merge the filters from location.state
+      }));
+    }
+  }, [location.state]);
+
 
   // Fetch properties with filters applied
-  const { data: returnedProperties, isLoading } = useQuery({
-    queryKey: ["properties", filters],
-    queryFn: () => {
-      // Check if all filter values are empty
-      // const isFiltersEmpty = Object.values(filters).every(value => !value);
+  // const { data: returnedProperties, isLoading } = useQuery({
+  //   queryKey: ["properties", filters],
+  //   queryFn: () => {
+  //     // Check if all filter values are empty
+  //     // const isFiltersEmpty = Object.values(filters).every(value => !value);
 
-      // If no filters are applied, fetch all properties
-      return !filters
-        ? getAllProperties()
-        : getAllPropertiesFiltered(filters);
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
-  });
+  //     // If no filters are applied, fetch all properties
+  //     return !filters
+  //       ? getAllProperties()
+  //       : getAllPropertiesFiltered(filters);
+  //   },
+  //   staleTime: 5 * 60 * 1000, // 5 minutes
+  //   cacheTime: 10 * 60 * 1000, // 10 minutes
+  // });
+
+  const fetchProperties = async() =>{
+    setIsLoading(true)
+    const { data, error } = await supabase
+      .from('listing')
+      .select()
+      setIsLoading(false)
+      setReturnedProperties(data)
+
+  }
+
+  
+  useEffect(()=>{
+    fetchProperties()
+  },[])
 
   // Update filters dynamically
   const handleInputChange = (e) => {
@@ -123,12 +141,12 @@ useEffect(() => {
         </div>
 
         {/* Properties */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
           {isLoading
             ? [1, 2, 3, 4].map((_, index) => (
               <PropertyTileLoading key={index} />
             ))
-            : returnedProperties?.data?.properties?.map((property, index) => (
+            : returnedProperties?.map((property, index) => (
               <PropertyCard key={index} property={property} />
             ))}
         </div>

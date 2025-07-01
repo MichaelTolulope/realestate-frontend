@@ -3,8 +3,9 @@ import { Link, replace } from 'react-router'
 import { Formik } from 'formik'
 import { useNavigate } from 'react-router'
 import housepic from '../assets/images/realEstatePic.jpg'
-import {toast } from 'sonner'
+import { toast } from 'sonner'
 import { AuthUserContext } from '../context/AuthContext'
+import supabase from '../util/supabase'
 
 const Signin = () => {
 
@@ -12,37 +13,46 @@ const Signin = () => {
   const baseUrl = import.meta.env.VITE_API_BASE_URL
 
   const [loading, setLoading] = useState(false)
-  const {user, setUser} = useContext(AuthUserContext)
+  const { user, setUser } = useContext(AuthUserContext)
 
   const login = async (values) => {
     setLoading(true)
     try {
       const payload = JSON.stringify(values)
 
-      const response = await fetch(`${baseUrl}/user/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',  // Ensure the server understands that you're sending JSON
-        },
-        body: payload
-      });
+      // const response = await fetch(`${baseUrl}/user/login`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',  // Ensure the server understands that you're sending JSON
+      //   },
+      //   body: payload
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();  // Parse the error response
-        console.error('Error:', errorData); 
-       setLoading(false)
-        toast.error(errorData.message)
-        return;  // Stop if there's an error
+      // if (!response.ok) {
+      //   const errorData = await response.json();  // Parse the error response
+      //   console.error('Error:', errorData); 
+      //  setLoading(false)
+      //   toast.error(errorData.message)
+      //   return;  // Stop if there's an error
+      // }
+
+      // const data = await response.json();
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      })
+      if (data) {
+        console.log('Login successful:', data);
+        setLoading(false)
+        toast.success("Login successfull!")
+        localStorage.setItem('user', JSON.stringify(data.user))
+        setUser(data.user)
+        navigate('/')
       }
-
-      const data = await response.json();
-      console.log('Login successful:', data);
-      setLoading(false)
-      toast.success("Login successfull!")
-      localStorage.setItem('user',JSON.stringify(data.user))
-      setUser(data.user)
-      navigate('/')
-
+      else{
+        toast.error(error.message)
+      }
     } catch (error) {
       setLoading(false)
       console.error('error: ', error)
@@ -188,9 +198,9 @@ const Signin = () => {
                     <button
                       type='submit'
                       disabled={loading}
-                      className={`inline-block shrink-0 border  active:text-black bg-black px-12 py-3 rounded-2xl ${loading?'bg-gray-500':'border-black  hover:text-black focus:outline-none focus:ring-black'}  px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent `}
+                      className={`inline-block shrink-0 border  active:text-black bg-black px-12 py-3 rounded-2xl ${loading ? 'bg-gray-500' : 'border-black  hover:text-black focus:outline-none focus:ring-black'}  px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent `}
                     >
-                      { loading ? 'Signing in...' : 'Sign in'}
+                      {loading ? 'Signing in...' : 'Sign in'}
                     </button>
 
                     <p className="mt-4 text-sm text-gray-500 sm:mt-0">

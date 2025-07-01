@@ -14,7 +14,7 @@ const Contact = () => {
   return (
     <section>
     <div className="bg-gray-800 text-white  flex flex-col md:flex-row">
-      <div className=' h-[550px] overflow-hidden w-full md:w-[400px] lg:w-[750px]'>
+      <div className=' h-[350px] md:h-[550px] overflow-hidden w-full md:w-[400px] lg:w-[750px]'>
         <Swiper
         modules={[Navigation]}
         navigation={{
@@ -25,17 +25,17 @@ const Contact = () => {
         className='relative w-full '>
           <SwiperSlide>
             <div className='w-full'>
-              <img src={houseBanner} alt="" className='object-cover w-full h-[550px]'/>
+              <img src={houseBanner} alt="" className='object-cover w-full  h-[350px] md:h-[550px]'/>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className='w-full'>
-              <img src={housePic1} alt="" className='object-cover w-full h-[550px]'/>
+              <img src={housePic1} alt="" className='object-cover w-full  h-[350px] md:h-[550px]'/>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className='w-full'>
-              <img src={housePic2} alt="" className='object-cover w-full h-[550px]'/>
+              <img src={housePic2} alt="" className='object-cover w-full  h-[350px] md:h-[550px]'/>
             </div>
           </SwiperSlide>
           <div className=' w-full flex justify-end gap-3 py-5 slider-controler absolute bottom-0 z-10 px-5'>

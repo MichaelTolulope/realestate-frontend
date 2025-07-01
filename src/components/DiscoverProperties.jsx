@@ -3,17 +3,24 @@ import { getAllProperties, getAllPropertiesPaginated } from '../apiRequests/apiC
 import PropertyCard from './PropertyTile';
 import { Link, Links } from 'react-router';
 import { FaArrowRightLong } from 'react-icons/fa6';
+import PropertyTileLoading from './PropertyTileLoading';
+import supabase from '../util/supabase';
 
 const DiscoverProperties = () => {
 
 
     const [properties, setProperties] = useState([])
+    const [isLoading, setIsLoading] = useState([])
 
     useEffect(() => {
         const fetchProperties = async () => {
-            const allProperties = await getAllPropertiesPaginated(1, 8); // Fetch properties
-            setProperties(allProperties.data.properties);
-            // Set the data
+            setIsLoading(true)
+            const { data, error } = await supabase
+                .from('listing')
+                .select()
+            setIsLoading(false)
+            setProperties(data)
+
         };
 
         fetchProperties();
@@ -24,15 +31,20 @@ const DiscoverProperties = () => {
                 Discover Our Property Listings
             </h2>
             {/* Properties */}
-            <div className='grid grid- sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16'>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16'>
                 {/* Render Property Cards */}
-                {properties && Array.isArray(properties) ? (
-                    properties.map((property, index) => (
-                        <PropertyCard key={index} property={property} />
-                    ))
-                ) : (
-                    <p>No properties found</p> // Fallback for non-array data
-                )}
+                {
+                    isLoading
+                        ? [1, 2, 3, 4].map((_, index) => (
+                            <PropertyTileLoading key={index} />
+                        ))
+                        : Array.isArray(properties) ? (
+                            properties.map((property, index) => (
+                                <PropertyCard key={index} property={property} />
+                            ))
+                        ) : (
+                            <p>No properties found</p> // Fallback for non-array data
+                        )}
 
             </div>
             <div className='w-full flex justify-end'>

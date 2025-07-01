@@ -1,8 +1,9 @@
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { Link, replace, useNavigate } from 'react-router'
-import {toast} from 'sonner'
+import { toast } from 'sonner'
 import picHouse from '../assets/images/housePic1.jpg'
+import supabase from '../util/supabase'
 
 const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,38 +12,46 @@ const Signup = () => {
   const navigate = useNavigate()
 
   const createUser = async (values) => {
-    if(values.password !== confirmPassword){
+    if (values.password !== confirmPassword) {
       toast.error("Passwords do not match!")
       return;
     }
 
     try {
       const payload = JSON.stringify(values)
-      const response = await fetch(`${baseUrl}/user/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: payload
-        }
-      );
+      // const response = await fetch(`${baseUrl}/user/signup`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: payload
+      //   }
+      // );
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        console.error('error: ', errorData)
-        toast.error(errorData.message)
-        return;
-      }
+      // if (!response.ok) {
+      //   const errorData = await response.json()
+      //   console.error('error: ', errorData)
+      //   toast.error(errorData.message)
+      //   return;
+      // }
 
-      const data = await response.json();
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        display_name:values.firstname +" "+ values.lastname
+        // options: {
+        //   emailRedirectTo: 'https://example.com/welcome',
+        // },
+      })
+      // const data = await response.json();
       console.log('singup successful ', data);
       toast.success('Registration successfull!')
       navigate('/signin')
 
     } catch (error) {
-        console.error('error :',error)
-        toast.error('Network Error!')
+      console.error('error :', error)
+      toast.error('Network Error!')
     }
 
 
@@ -54,7 +63,7 @@ const Signup = () => {
           <img
             alt=""
             // src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-           src={picHouse}
+            src={picHouse}
             className="absolute inset-0 h-full w-full object-cover opacity-80"
           />
 
