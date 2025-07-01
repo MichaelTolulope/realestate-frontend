@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const PropertyCard = ({ property }) => {
-    const { images, name, address, price, _id, bedrooms, bathrooms, 'land-area': area } = property;
+    const { images, name, address, price, id, bedrooms, bathrooms, 'land-area': area } = property;
 
     const [liked,setLiked] = useState()
 
@@ -21,13 +21,13 @@ const PropertyCard = ({ property }) => {
 
 
     const handleClick = () => {
-        navigate(`/properties/${_id}`)
+        navigate(`/properties/${id}`)
     }
 
 useEffect(() => {
   const likedProps = JSON.parse(localStorage.getItem('liked_properties')) || [];
-  setLiked(likedProps.includes(_id));
-}, [_id]);
+  setLiked(likedProps.includes(id));
+}, [id]);
 
  const toggleLike = (e) => {
     e.stopPropagation();
@@ -35,9 +35,9 @@ useEffect(() => {
     let likedProps = JSON.parse(localStorage.getItem('liked_properties')) || [];
 
     if (liked) {
-      likedProps = likedProps.filter(id => id !== _id);
+      likedProps = likedProps.filter(id => id !== id);
     } else {
-      likedProps.push(_id);
+      likedProps.push(id);
     }
 
     localStorage.setItem('liked_properties', JSON.stringify(likedProps));

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { sendUserRequest } from '../apiRequests/apiCalls'
 import { toast } from 'sonner'
 
-const RequestForm = ({propertyId}) => {
+const RequestForm = ({propertyId, additionalStyles}) => {
 
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
@@ -50,7 +50,7 @@ const RequestForm = ({propertyId}) => {
 
 
     return (
-        <form onSubmit={handleSubmit} className="shadow-lg rounded-2xl w-full flex flex-col bg-white gap-3 p-4">
+        <form onSubmit={handleSubmit} className={`shadow-lg rounded-2xl w-full flex flex-col bg-white gap-3 p-4 ${additionalStyles}`}>
             <div className="flex justify-between items-center">
                 <h3>Aura Homes</h3>
                 <a href="/properties"><h4>View Listings</h4></a>
