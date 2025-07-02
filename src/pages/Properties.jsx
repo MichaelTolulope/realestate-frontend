@@ -141,7 +141,7 @@ const Properties = () => {
         </div>
 
         {/* Properties */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16 place-items-center">
           {isLoading
             ? [1, 2, 3, 4].map((_, index) => (
               <PropertyTileLoading key={index} />
