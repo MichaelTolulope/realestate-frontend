@@ -7,7 +7,6 @@ import supabase from '../util/supabase'
 
 const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
-  const baseUrl = import.meta.env.VITE_API_BASE_URL
 
   const navigate = useNavigate()
 
@@ -17,42 +16,27 @@ const Signup = () => {
       return;
     }
 
-    try {
-      const payload = JSON.stringify(values)
-      // const response = await fetch(`${baseUrl}/user/signup`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: payload
-      //   }
-      // );
+    const { firstname, lastname, email, password } = values;
+    console.log(firstname, lastname, email, password);
 
-      // if (!response.ok) {
-      //   const errorData = await response.json()
-      //   console.error('error: ', errorData)
-      //   toast.error(errorData.message)
-      //   return;
-      // }
+    const encodedPassword = btoa(password); // basic encoding
 
-      const { data, error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-        display_name:values.firstname +" "+ values.lastname
-        // options: {
-        //   emailRedirectTo: 'https://example.com/welcome',
-        // },
-      })
-      // const data = await response.json();
-      console.log('singup successful ', data);
-      toast.success('Registration successfull!')
-      navigate('/signin')
+    const { data, error } = await supabase.from("adminuserAccounts").insert([
+      { email, password: encodedPassword, firstname, lastname }
+    ]);
 
-    } catch (error) {
-      console.error('error :', error)
-      toast.error('Network Error!')
+    if (error) {
+      console.error("Sign-up error:", error.message);
+
     }
+
+
+    // const data = await response.json();
+    console.log('singup successful ', data);
+    toast.success('Registration successfull!')
+    navigate('/signin')
+
+
 
 
   }
@@ -118,7 +102,7 @@ const Signup = () => {
               </a>
 
               <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Welcome to Squid 🦑
+                Welcome to Mydahsoft Homes🏡
               </h1>
 
               <p className="mt-4 leading-relaxed text-gray-500">

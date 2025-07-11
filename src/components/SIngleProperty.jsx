@@ -24,10 +24,10 @@ const SingleProperty = ({ property }) => {
           <div className=" w-full flex  flex-col gap-4">
             {/* main display image */}
             <div className="relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden flex-1">
-           <img className=" absolute top-0 w-full h-[300px] md:h-[500px] object-cover" src={previewImg} alt="" />
+              <img className=" absolute top-0 w-full h-[300px] md:h-[500px] object-cover" src={previewImg} alt="" />
               <motion.img
                 key={previewImg} // Forces re-render when the image changes
-                initial={{ scale: 0, y:-20, x:20 }} animate={{ scale: 1, y:0,x:0 }}
+                initial={{ scale: 0, y: -20, x: 20 }} animate={{ scale: 1, y: 0, x: 0 }}
                 // exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
                 className="w-full h-[300px] md:h-[500px] object-cover" src={previewImg} alt="" />
@@ -40,11 +40,11 @@ const SingleProperty = ({ property }) => {
                     key={index}
                     className={`h-[85px] md:h-[120px] rounded-[15px] max-w-36 overflow-hidden group flex-1 ${previewImg === img && 'border-2 border-yellow-600 p-[2px]'}`}
                     onClick={() => {
-                      
+
                       setPreviewImgBg(previewImg)
                       setPreviewImg(img)
                     }
-                  }
+                    }
                   >
                     <img
                       className="object-cover h-full w-full group-hover:scale-[1.1] transition-all rounded-xl"
@@ -56,7 +56,7 @@ const SingleProperty = ({ property }) => {
               }
             </div>
 
-           <RequestForm propertyId={property.id} additionalStyles={"hidde md:block"}/>
+            <RequestForm propertyId={property.id} additionalStyles={"hidden md:flex"} />
           </div>
         </div>
         <div className="flex flex-col md:w-[50%] py-2 gap-5">
@@ -109,6 +109,8 @@ const SingleProperty = ({ property }) => {
             </div>
           </div>
         </div>
+        <RequestForm propertyId={property.id} additionalStyles={"md:hidden block"} />
+
       </div>
       <hr className="font-extrabold h-[2px] bg-gray-300" />
       {/* <div className="h-[500px]"></div> */}

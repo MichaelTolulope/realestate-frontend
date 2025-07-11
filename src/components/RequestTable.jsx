@@ -1,135 +1,102 @@
 import React from 'react'
 import { useTheme } from '../context/ThemeContext'
-import { useQuery } from '@tanstack/react-query'
-import { getAllRequests } from '../apiRequests/apiCalls'
-import {formatDateTime} from '../util/utils'
+import { formatDateTime } from '../util/utils'
+import supabase from '../util/supabase'
+import { Link } from 'react-router-dom'
 
-const RequestTable = () => {
-    const { theme } = useTheme()
-    const {data, isLoading, isError} = useQuery({
-        queryKey:['requests'],
-        queryFn: getAllRequests,
-        cacheTime: 10 * 60 * 1000,
+const RequestTable = ({
+  requests,
+  isLoading,
+  currentPage,
+  totalPages,
+  onPageChange,
+  fetchRequests,
+  onEditNote
+}) => {
+  const { theme } = useTheme()
+  const textColor = theme === 'dark' ? 'text-white' : 'text-black'
+  const bgColor = theme === 'dark' ? 'bg-gray-800' : 'bg-white'
 
-    })
+  const updateStatus = async (id, newStatus) => {
+    const { error } = await supabase
+      .from('prospectResponse')
+      .update({ status: newStatus })
+      .eq('id', id)
 
-    return (
+    if (error) console.error('Status update failed:', error.message)
+    else fetchRequests()
+  }
 
-        < div className={`rounded-lg border border-gray-200`} >
-            <div className="overflow-x-auto rounded-t-lg ">
-                <table className=" divide-y-2 divide-gray-200  text-sm">
-                    <thead className="ltr:text-left rtl:text-right">
-                        <tr >
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Request ID</th>
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Name</th>
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Email</th>
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Phone Number</th>
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Message</th>
-                            <th className={`${theme === 'dark' ? 'text-white' : 'text-black'} text-left px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>Date - Time</th>
-                        </tr>
-                    </thead>
-
-                    <tbody className="divide-y divide-gray-200">
-                        {
-                            data?.requests?.map((request) => (
-                                <tr key={request._id}>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>{request._id}</td>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 font-medium whitespace-nowrap text-gray-900`}>{request.fullName}</td>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 whitespace-nowrap text-gray-700`}>{request.email}</td>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 whitespace-nowrap text-gray-700`}>{request.phoneNumber}</td>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 whitespace-nowrap text-gray-700`}>{request.message}</td>
-                                    <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 whitespace-nowrap text-gray-700`}>{formatDateTime(request.date)}</td>
-                                    {/* <td className={`${theme === 'dark' ? 'text-white' : 'text-black'} px-4 py-2 whitespace-nowrap text-gray-700`}><button className='border-none bg-black text-white px-3 py-2 rounded-lg font-bold'>Respond</button></td> */}
-                                </tr>
-                            ))
-                        }
-
-
-
-                    </tbody>
-                </table>
+  return (
+    <div className={`rounded-lg border border-gray-200 ${bgColor} overflow-hidden`}>
+      <div className="overflow-x-auto">
+        {isLoading ? (
+          <div className="p-6 text-center">
+            <div className="animate-pulse space-y-4">
+              <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto" />
+              <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto" />
+              <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto" />
             </div>
-
-            <div className="rounded-b-lg border-t border-gray-200 px-4 py-2 flex justify-center">
-                <ol className="flex justify-end gap-1 text-xs font-medium">
-                    <li>
-                        <a
-                            href="#"
-                            className="inline-flex size-8 items-center justify-center rounded-sm border border-gray-100 bg-white text-gray-900 rtl:rotate-180"
-                        >
-                            <span className="sr-only">Prev Page</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="size-3"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            href="#"
-                            className="block size-8 rounded-sm border border-gray-100 bg-white text-center leading-8 text-gray-900"
-                        >
-                            1
-                        </a>
-                    </li>
-
-                    <li
-                        className="block size-8 rounded-sm border-blue-600 bg-blue-600 text-center leading-8 text-white"
-                    >
-                        2
-                    </li>
-
-                    <li>
-                        <a
-                            href="#"
-                            className="block size-8 rounded-sm border border-gray-100 bg-white text-center leading-8 text-gray-900"
-                        >
-                            3
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            href="#"
-                            className="block size-8 rounded-sm border border-gray-100 bg-white text-center leading-8 text-gray-900"
-                        >
-                            4
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            href="#"
-                            className="inline-flex size-8 items-center justify-center rounded-sm border border-gray-100 bg-white text-gray-900 rtl:rotate-180"
-                        >
-                            <span className="sr-only">Next Page</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="size-3"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                        </a>
-                    </li>
-                </ol>
-            </div>
-        </div >
-    )
+            <p className={`mt-4 text-sm ${textColor}`}>Loading requests...</p>
+          </div>
+        ) : (
+          <table className="min-w-full text-sm divide-y divide-gray-200">
+            <thead>
+              <tr>
+                {['ID','Property','Name','Email','Phone','Message','Date','Status','Note','Actions'].map(col => (
+                  <th key={col} className={`px-4 py-2 text-left font-medium whitespace-nowrap ${textColor}`}>{col}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {requests.map((r) => (
+                <tr key={r.id}>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>{r.id}</td>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>
+                    <Link to={`/properties/${r.propertyId}`} className="underline" target="_blank">{r.propertyId}</Link>
+                  </td>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>{r.name}</td>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>{r.email}</td>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>{r.phone}</td>
+                  <td className={`px-4 py-2 max-w-[200px] truncate ${textColor}`}>{r.message}</td>
+                  <td className={`px-4 py-2 whitespace-nowrap ${textColor}`}>{formatDateTime(r.created_at)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      r.status === 'feedback given' ? 'bg-green-100 text-green-800'
+                        : r.status === 'contacted' ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'}`}>
+                      {r.status || 'pending'}
+                    </span>
+                  </td>
+                  <td className={`px-4 py-2 max-w-[150px] truncate ${textColor}`}>
+                    {r.adminNote || '—'}
+                  </td>
+                  <td className="px-4 py-2 space-x-1 flex flex-col gap-1">
+                    {r.status !== 'contacted' && r.status !== 'feedback given' && (
+                      <button onClick={() => updateStatus(r.id, 'contacted')} className="px-2 py-1 bg-yellow-500 text-xs text-white rounded">Contacted</button>
+                    )}
+                    {r.status === 'contacted' && (
+                      <button onClick={() => updateStatus(r.id, 'feedback given')} className="px-2 py-1 bg-green-600 text-xs text-white rounded">Feedback</button>
+                    )}
+                    <button onClick={() => onEditNote(r)} className="px-2 py-1 bg-blue-500 text-xs text-white rounded">Edit Note</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+      {!isLoading && (
+        <div className="flex justify-center gap-2 p-4 border-t border-gray-200">
+          <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="px-3 py-1 bg-gray-100 rounded">Prev</button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+            <button key={p} onClick={() => onPageChange(p)} className={`px-3 py-1 rounded ${p === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}>{p}</button>
+          ))}
+          <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} className="px-3 py-1 bg-gray-100 rounded">Next</button>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default RequestTable

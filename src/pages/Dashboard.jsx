@@ -8,7 +8,7 @@ import { useTheme } from '../context/ThemeContext'
 const Dashboard = () => {
     const [showAddListingForm, setShowAddListingPage] = useState(false)
     const [success, setSuccess] = useState(false)
-    const {theme} = useTheme()
+    const { theme } = useTheme()
     const cardData = [
         {
             title: "Page Views",
@@ -32,7 +32,7 @@ const Dashboard = () => {
         }
     ]
     return (
-        <div className='flex flex-col gap-5 px-5'>
+        <div className='flex flex-col gap-5 px-0 md:px-5'>
             <div className='flex justify-between items-center px-3 mt-3 mb-5'>
                 <h2 className='text-[20px] font-bold'>Dashboard</h2>
                 <button className="bg-black text-white px-5 py-[9px] rounded-2xl" onClick={() => {
@@ -41,15 +41,15 @@ const Dashboard = () => {
                     Add Property
                 </button>
             </div>
-            <div className='flex gap-4 justify-between mb-3'>
+            <div className='grid grid-cols-2 md:flex flex-col md:flex-row gap-4 justify-between mb-3'>
                 {
-                    cardData.map((data,index) => (
+                    cardData.map((data, index) => (
                         <MiniCard key={index} title={data.title} value={data.value}>
                             {React.createElement(data.icon)}
                         </MiniCard>
                     ))
                 }
-                
+
             </div>
             {/* <RevenueChart/> */}
             {showAddListingForm && <AddProperty show={setShowAddListingPage} setSuccess={setSuccess} />

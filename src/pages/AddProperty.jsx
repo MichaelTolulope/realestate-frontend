@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { MdCancel, MdFrontLoader, MdOutlineFileUpload } from "react-icons/md";
+import { MdCancel, MdClose, MdFrontLoader, MdOutlineFileUpload } from "react-icons/md";
 import { toast } from 'sonner';
 import { createNewProperty } from '../apiRequests/apiCalls';
 import { useNavigate } from 'react-router';
@@ -9,7 +9,7 @@ import supabase from '../util/supabase';
 
 // eslint-disable-next-line react/prop-types
 const AddProperty = ({ show }) => {
-     const navigate = useNavigate()
+    const navigate = useNavigate()
     const [user, setUser] = useState()
 
     const [step, setStep] = useState(1)
@@ -110,20 +110,20 @@ const AddProperty = ({ show }) => {
             const { data, error } = await supabase
                 .from("listing")
                 .insert([{
-                    name:title,
+                    name: title,
                     description,
-                    type:status,
+                    type: status,
                     price,
                     images: imageURLs,
-                    "land-area":area,
-                    bathrooms:bathroom,
-                    bedrooms:bedroom,
+                    "land-area": area,
+                    bathrooms: bathroom,
+                    bedrooms: bedroom,
                     ammenities,
-                    address:location,
+                    address: location,
                     tags,
                     createdBy: user?._id,
                     propertyType: type,
-                    likes:0,
+                    likes: 0,
                     parking,
                     created_at: new Date().toISOString()
                 }])
@@ -138,20 +138,22 @@ const AddProperty = ({ show }) => {
     };
 
     if (!showForm) return null;
- 
+
 
     return (
 
-        <div className='px-10 md:px-36 flex flex-col gap-2  bg-[rgba(0,0,0,0.5)] justify-center items-center fixed inset-0 z-20 h-full ' onClick={() => show(false)}>
+        <div className='px-5 py-5 md:px-36 flex flex-col  bg-[rgba(0,0,0,0.5)] justify-center items-center fixed inset-0 z-20 h-full ' onClick={() => show(false)}>
 
-            <form action="" onSubmit={e => handleSubmit(e)} className='z-10' onClick={(e) => e.stopPropagation()}>
+            <form action="" onSubmit={e => handleSubmit(e)} className='z-10 w-[100%]' onClick={(e) => e.stopPropagation()}>
 
                 {
                     step === 1
                     &&
                     (
-                        <AnimationWrapper>
-                            <div className='p-8 rounded-lg shadow-md flex flex-col gap-8 bg-white min-h-[500px] w-[700px]'>
+                        <AnimationWrapper className="w-[100%]">
+
+                            <div className='p-8 rounded-lg shadow-md flex flex-col gap-8 bg-white min-h-[500px] w-[100%] md:w-[700px]'>
+                                <MdClose className='block md:hidden text-[32px] self-end'  onClick={() => show(false)} />
                                 <h2 className='font-bold text-xl'>Add a new property</h2>
                                 <div className="grid w-full items-center gap-1.5">
                                     <label htmlFor="sellingPrice" className='text-slate-500'>Property Name</label>
@@ -163,7 +165,7 @@ const AddProperty = ({ show }) => {
                                 </div>
                                 <div className="grid w-full items-center gap-1.5">
                                     <label htmlFor="sellingPrice" className='text-slate-500'>Upload property images</label>
-                                    <div className='flex flex-col justify-center items-center w-full h-[230px] border-2 border-gray-600 rounded-2xl bg-gray-200 border-dashed cursor-pointer' onClick={
+                                    <div className='flex flex-col justify-center items-center w-full h-[150px] md:h-[230px] border-2 border-gray-600 rounded-2xl bg-gray-200 border-dashed cursor-pointer' onClick={
                                         () => {
                                             document.querySelector('.file-input').click()
                                         }
