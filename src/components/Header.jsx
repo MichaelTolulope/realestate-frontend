@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { AuthUserContext, logOut } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { FaChevronDown, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import AddProperty from '../pages/AddProperty';
 import { toast } from 'sonner'
@@ -13,17 +13,10 @@ const Header = () => {
   const navigate = useNavigate()
   const path = location.pathname;
   const [showAddListingForm, setShowAddListingPage] = useState(false)
-  const { user, setUser } = useContext(AuthUserContext);
+  const { user, logout } = useAuth();
   const [success, setSuccess] = useState(false)
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      setUser(JSON.parse(user))
-    }
-
-  }, [localStorage])
 
   useEffect(() => {
     if (success) {
@@ -31,39 +24,6 @@ const Header = () => {
     }
   }, [success])
 
-  const baseUrl = import.meta.env.VITE_API_BASE_URL
-
-  const logOutWithPromise = async () => {
-    // const logOut = await fetch(`${baseUrl}/user/logout`,{
-    //   method:'POST',
-    //   headers:{
-    //     'applicationType': 'application/json'
-    //   }
-    // })
-    const promise = () => new Promise((resolve) => setTimeout(() => {
-      resolve({ name: user.firstname })
-      setUser(null)
-      localStorage.clear()
-      navigate('/')
-
-
-    }, 2000));
-
-    toast.promise(promise, {
-      loading: 'Loging out...',
-      success: (data) => {
-        return `${data.name} Logged out`;
-      },
-      error: 'Error',
-    });
-  }
-
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/");
-  //   }
-  // }, [user, navigate]); 
 
 
   return (
@@ -105,7 +65,7 @@ const Header = () => {
                       <div className="w-[40px] h-[40px] bg-[#f0f2f5] flex items-center justify-center rounded-full">
                         <FaSignOutAlt className="text-xl" />
                       </div>
-                      <span className="text-[14px] text-dark font-semibold" onClick={() => logOutWithPromise()}> Log out </span>
+                      <span className="text-[14px] text-dark font-semibold" onClick={logout}> Log out </span>
                     </button>
                   </div>
                 </div>

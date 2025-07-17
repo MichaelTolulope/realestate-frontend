@@ -28,8 +28,8 @@ const RequestTable = ({
   }
 
   return (
-    <div className={`rounded-lg border border-gray-200 ${bgColor} overflow-hidden`}>
-      <div className="overflow-x-auto">
+    <div className={`max-w-full rounded-lg border border-gray-200 ${bgColor} overflow-hidden`}>
+      <div className="overflow-x-auto w-full">
         {isLoading ? (
           <div className="p-6 text-center">
             <div className="animate-pulse space-y-4">
@@ -40,7 +40,7 @@ const RequestTable = ({
             <p className={`mt-4 text-sm ${textColor}`}>Loading requests...</p>
           </div>
         ) : (
-          <table className="min-w-full text-sm divide-y divide-gray-200">
+          <table className="min-w-[1200px] w-full text-sm divide-y divide-gray-200">
             <thead>
               <tr>
                 {['ID','Property','Name','Email','Phone','Message','Date','Status','Note','Actions'].map(col => (
@@ -90,7 +90,7 @@ const RequestTable = ({
         <div className="flex justify-center gap-2 p-4 border-t border-gray-200">
           <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="px-3 py-1 bg-gray-100 rounded">Prev</button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-            <button key={p} onClick={() => onPageChange(p)} className={`px-3 py-1 rounded ${p === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}>{p}</button>
+            <button key={p} onClick={() => onPageChange(p)} className={`px-3 py-1 rounded ${p === currentPage ? 'bg-black text-white' : 'bg-gray-100'}`}>{p}</button>
           ))}
           <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} className="px-3 py-1 bg-gray-100 rounded">Next</button>
         </div>

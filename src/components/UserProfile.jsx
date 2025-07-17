@@ -1,40 +1,36 @@
-import React, { useContext, useEffect } from 'react';
 import { FaSignOutAlt, FaUser } from 'react-icons/fa';
-import { AuthUserContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
 const UserProfile = () => {
-  const { user, setUser } = useContext(AuthUserContext);
-  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const {theme} = useTheme()
   
-    useEffect(() => {
-      const user = localStorage.getItem('user');
-      if (user) {
-        setUser(JSON.parse(user))
-      }
+    // useEffect(() => {
+    //   // const user = localStorage.getItem('user');
+    //   if (user) {
+    //     setUser(JSON.parse(user))
+    //   }
   
-    }, [localStorage])
+    // }, [localStorage])
 
-  const logOutWithPromise = async () => {
-    const promise = () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ name: user?.firstname });
-          setUser(null);
-          localStorage.clear();
-          navigate('/');
-        }, 2000);
-      });
+  // const logOutWithPromise = async () => {
+  //   const promise = () =>
+  //     new Promise((resolve) => {
+  //       setTimeout(() => {
+  //         resolve({ name: user?.firstname });
+  //         setUser(null);
+  //         localStorage.clear();
+  //         navigate('/');
+  //       }, 2000);
+  //     });
 
-    toast.promise(promise(), {
-      loading: 'Logging out...',
-      success: (data) => `${data.name} Logged out`,
-      error: 'Error logging out',
-    });
-  };
+  //   toast.promise(promise(), {
+  //     loading: 'Logging out...',
+  //     success: (data) => `${data.name} Logged out`,
+  //     error: 'Error logging out',
+  //   });
+  // };
 
   return (
     <div className=" mt-2 p-2 rounded-2xl w-[300px] mx-auto">
@@ -50,7 +46,7 @@ const UserProfile = () => {
 
       <button
         className="rounded-xl w-full text-left p-2 text-dark hover:bg-gray-100 flex items-center gap-2"
-        onClick={logOutWithPromise}
+        onClick={logout}
       >
         <div className={`${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-800'
                 } p-4 rounded-full flex justify-center items-center`}>

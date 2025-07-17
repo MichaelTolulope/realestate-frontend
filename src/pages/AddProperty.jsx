@@ -9,7 +9,6 @@ import supabase from '../util/supabase';
 
 // eslint-disable-next-line react/prop-types
 const AddProperty = ({ show }) => {
-    const navigate = useNavigate()
     const [user, setUser] = useState()
 
     const [step, setStep] = useState(1)
@@ -150,10 +149,10 @@ const AddProperty = ({ show }) => {
                     step === 1
                     &&
                     (
-                        <AnimationWrapper className="w-[100%]">
+                        <AnimationWrapper additionalStyles="w-[100%] flex items-center justify-center">
 
                             <div className='p-8 rounded-lg shadow-md flex flex-col gap-8 bg-white min-h-[500px] w-[100%] md:w-[700px]'>
-                                <MdClose className='block md:hidden text-[32px] self-end'  onClick={() => show(false)} />
+                                <MdClose className='block text-[32px] self-end cursor-pointer'  onClick={() => show(false)} />
                                 <h2 className='font-bold text-xl'>Add a new property</h2>
                                 <div className="grid w-full items-center gap-1.5">
                                     <label htmlFor="sellingPrice" className='text-slate-500'>Property Name</label>

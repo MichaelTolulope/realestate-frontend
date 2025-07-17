@@ -8,9 +8,10 @@ import { useTheme } from '../context/ThemeContext.jsx'
 const AdminSideNav = ({ setPage, additionalStyles }) => {
   const [checked, setChecked] = useState(false)
   const {theme} = useTheme()
+  
 
   return (
-    <div className={`relative bg-transparent py-3 flex flex-col gap-5 justify-between overflow-hidden hover:w-[290px] hover:min-w-[290px] transition-all ${additionalStyles} ${checked ? 'w-[290px]' : 'w-[70px]'}`} >
+    <div className={`relative bg-transparent py-3 flex flex-col gap-5 justify-between overflow-hidden hover:w-[290px] hover:min-w-[290px] transition-all ${additionalStyles} ${checked ? 'w-[290px] min-w-[290px]' : 'w-[70px]'}`} >
       <div>
         <div className='absolute top-2 w-[270px] flex justify-end items-center' >
           <RadioCheckbox checked={checked} setChecked={setChecked} />

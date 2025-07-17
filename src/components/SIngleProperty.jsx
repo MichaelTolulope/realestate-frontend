@@ -6,11 +6,16 @@ import { FaHome, FaShare, FaStar } from "react-icons/fa";
 import { MdBathtub, MdCarRepair, MdKingBed } from "react-icons/md";
 import { motion } from 'framer-motion'
 import RequestForm from "./RequestForm";
+import { useAuth } from "../context/AuthContext";
+import EditPropertyForm from "./EditPropertyForm";
 const SingleProperty = ({ property }) => {
 
   const [imgList, setImgList] = useState(property.images)
   const [previewImgBg, setPreviewImgBg] = useState(imgList[0])
   const [previewImg, setPreviewImg] = useState(imgList[0])
+  const { user } = useAuth()
+  console.log(user);
+
 
   // useEffect(()=>{
   //   setImgList(property.images)
@@ -24,6 +29,17 @@ const SingleProperty = ({ property }) => {
           <div className=" w-full flex  flex-col gap-4">
             {/* main display image */}
             <div className="relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden flex-1">
+              {
+                property.active
+                  ?
+                  <div className="bg-green-200 rounded-2xl py-2 px-3 absolute right-5 top-5 z-20">
+                    <p className="text-green-500">Active</p>
+                  </div>
+                  :
+                  <div className="bg-red-200 rounded-2xl py-2 px-3 absolute right-5 top-5 z-20">
+                    <p className="text-red-500">Inactive</p>
+                  </div>
+              }
               <img className=" absolute top-0 w-full h-[300px] md:h-[500px] object-cover" src={previewImg} alt="" />
               <motion.img
                 key={previewImg} // Forces re-render when the image changes
@@ -34,6 +50,7 @@ const SingleProperty = ({ property }) => {
             </div>
             {/* all the images */}
             <div className="w-[100%] flex gap-4 overflow-x-auto">
+
               {
                 imgList.map((img, index) => (
                   <div
@@ -56,7 +73,9 @@ const SingleProperty = ({ property }) => {
               }
             </div>
 
-            <RequestForm propertyId={property.id} additionalStyles={"hidden md:flex"} />
+            {!user && <RequestForm propertyId={property.id} additionalStyles={"hidden md:flex"} />}
+            {user && <EditPropertyForm property={property} fetchUpdatedProperty={property} />
+            }
           </div>
         </div>
         <div className="flex flex-col md:w-[50%] py-2 gap-5">
@@ -109,7 +128,9 @@ const SingleProperty = ({ property }) => {
             </div>
           </div>
         </div>
-        <RequestForm propertyId={property.id} additionalStyles={"md:hidden block"} />
+        {
+          !user && <RequestForm propertyId={property.id} additionalStyles={"md:hidden block"} />
+        }
 
       </div>
       <hr className="font-extrabold h-[2px] bg-gray-300" />

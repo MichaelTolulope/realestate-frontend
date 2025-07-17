@@ -54,7 +54,7 @@ const AdminHeader = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <div className="flex justify-end gap-7 w-[50%]">
+            <div className="flex flex-col md:flex-row justify-end gap-7 w-[50%]">
                 <GreetUser />
                 <div>
                     <div className={`p-4 rounded-full flex justify-center items-center cursor-pointer ${theme === 'dark' ? 'bg-gray-800 text-yellow-400' : 'bg-gray-100 text-gray-800'

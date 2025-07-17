@@ -5,9 +5,11 @@ import { Link, Links } from 'react-router';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import PropertyTileLoading from './PropertyTileLoading';
 import supabase from '../util/supabase';
+import { useAuth } from '../context/AuthContext';
 
 const DiscoverProperties = () => {
 
+    const { user } = useAuth()
 
     const [properties, setProperties] = useState([])
     const [isLoading, setIsLoading] = useState([])
@@ -15,9 +17,14 @@ const DiscoverProperties = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             setIsLoading(true)
-            const { data, error } = await supabase
-                .from('listing')
-                .select()
+
+            let query = supabase.from('listing').select();
+
+            if (!user) {
+                query = query.eq('active', true); 
+            }
+
+            const { data, error } = await query;
             setIsLoading(false)
             setProperties(data)
 

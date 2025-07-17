@@ -124,8 +124,6 @@ const Signup = () => {
             >
               {({
                 values,
-                errors,
-                touched,
                 handleChange,
                 handleBlur,
                 handleSubmit,
@@ -146,6 +144,7 @@ const Signup = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.firstname}
+                      required
                       className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm p-3 focus:outline-none focus:ring transition"
                     />
                   </div>
@@ -162,6 +161,7 @@ const Signup = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.lastname}
+                      required
                       className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm p-3 focus:outline-none focus:ring transition"
                     />
                   </div>
@@ -176,6 +176,7 @@ const Signup = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
+                      required
                       className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm p-3 focus:outline-none focus:ring transition"
                     />
                   </div>
@@ -190,6 +191,7 @@ const Signup = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.password}
+                      required
                       className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm p-3 focus:outline-none focus:ring transition"
                     />
                   </div>
@@ -203,6 +205,7 @@ const Signup = () => {
                       type="password"
                       id="PasswordConfirmation"
                       name="password_confirmation"
+                      required
                       onChange={(e) => [
                         setConfirmPassword(e.target.value)
                       ]}

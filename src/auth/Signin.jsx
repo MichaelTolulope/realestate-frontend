@@ -1,39 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link} from 'react-router-dom';
 import { Formik } from 'formik';
-import { toast } from 'sonner';
 import housepic from '../assets/images/realEstatePic.jpg';
-import { AuthUserContext } from '../context/AuthContext';
-import supabase from '../util/supabase';
+import {useAuth } from '../context/AuthContext';
 
 const Signin = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(AuthUserContext);
-
-  const login = async ({ email, password }) => {
-    const { data, error } = await supabase
-      .from('adminuserAccounts')
-      .select('*')
-      .eq('email', email)
-      .single();
-
-    if (error || !data) {
-      toast.error('User not found');
-      return false;
-    }
-
-    const decodedPassword = atob(data.password);
-    if (decodedPassword === password) {
-      setUser(data);
-      toast.success('Login successful');
-      navigate('/admin-dashboard');
-      return true;
-    } else {
-      toast.error('Incorrect password');
-      return false;
-    }
-  };
+  const { login } = useAuth();
+  
 
   return (
     <section className="bg-white">

@@ -54,8 +54,8 @@ const UserRequests = () => {
   )
 
   return (
-    <div>
-      <div className="flex justify-between items-center px-3 mt-3 mb-5 flex-wrap gap-3">
+    <div className='max-w-full'>
+      <div className="flex justify-between items-center px-3 mt-3 mb-5 flex-wrap gap-3 overflow-hidden">
         <h2 className="text-[20px] font-bold">User Requests</h2>
         <div className="flex items-center gap-4">
           <div className={`flex items-center rounded-3xl gap-3 pl-2 pr-4 py-2 w-[220px] border-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white'}`}>
@@ -67,13 +67,13 @@ const UserRequests = () => {
               className="w-full outline-none bg-transparent"
             />
           </div>
-          <button onClick={fetchRequests} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm hover:bg-blue-700">
+          <button onClick={fetchRequests} className="px-4 py-2 bg-black text-white rounded-xl text-sm ">
             Refresh
           </button>
         </div>
       </div>
 
-      <div className="w-full overflow-x-auto">
+      <div className="overflow-hidden">
         <RequestTable
           requests={filteredRequests}
           isLoading={isLoading}

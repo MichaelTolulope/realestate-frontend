@@ -1,6 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
-import React, { useState } from 'react'
-import { sendUserRequest } from '../apiRequests/apiCalls'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import supabase from '../util/supabase'
 
@@ -32,17 +30,19 @@ const RequestForm = ({ propertyId, additionalStyles }) => {
         email,
         message
       }]).select()
-      setIsSending(false)
+    setIsSending(false)
+
+    if (error) {
+      toast.error("error occured! try again")
+      throw error;
+    }
 
     setName("")
     setPhone("")
     setEmail("")
     setMessage("")
     toast.success("Request sent successfully!")
-   
 
-
-    if (error) throw error;
 
   };
 
@@ -65,7 +65,7 @@ const RequestForm = ({ propertyId, additionalStyles }) => {
 
       <textarea className="border p-3 rounded-xl" cols={24} type="text" placeholder="Hello i'm interested in this property" required value={message} onChange={(e) => setMessage(e.target.value)} />
 
-      <input className={`${'bg-black text-white'} border p-3 rounded-xl cursor-pointer`} disabled={isSending} type="submit" value={`${isSending ?'Sending request...':'Send Request'}`} />
+      <input className={`${'bg-black text-white'} border p-3 rounded-xl cursor-pointer`} disabled={isSending} type="submit" value={`${isSending ? 'Sending request...' : 'Send Request'}`} />
     </form>
   )
 }

@@ -8,9 +8,11 @@ import Contact from "../components/Contact";
 import { getAllProperties, getAllPropertiesFiltered } from "../apiRequests/apiCalls.js";
 import { useLocation } from "react-router";
 import supabase from "../util/supabase.js";
+import { useAuth } from "../context/AuthContext.jsx";
+import NotificationBanner from "../components/NotificationBanner.jsx";
 
 const Properties = () => {
-  const [filterDropdown, setFilterDropdown] = useState(false);
+  // const [filterDropdown, setFilterDropdown] = useState(false);
   const [search, setSearch] = useState();
   const [type, setType] = useState();
   const [city, setCity] = useState();
@@ -19,7 +21,8 @@ const Properties = () => {
   const [returnedProperties, setReturnedProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const queryClient = useQueryClient();
+  const { user } = useAuth()
+
 
   const location = useLocation()
 
@@ -34,36 +37,32 @@ const Properties = () => {
   }, [location.state]);
 
 
-  // Fetch properties with filters applied
-  // const { data: returnedProperties, isLoading } = useQuery({
-  //   queryKey: ["properties", filters],
-  //   queryFn: () => {
-  //     // Check if all filter values are empty
-  //     // const isFiltersEmpty = Object.values(filters).every(value => !value);
+  const fetchProperties = async () => {
+    setIsLoading(true);
 
-  //     // If no filters are applied, fetch all properties
-  //     return !filters
-  //       ? getAllProperties()
-  //       : getAllPropertiesFiltered(filters);
-  //   },
-  //   staleTime: 5 * 60 * 1000, // 5 minutes
-  //   cacheTime: 10 * 60 * 1000, // 10 minutes
-  // });
+    let query = supabase.from('listing').select();
 
-  const fetchProperties = async() =>{
-    setIsLoading(true)
-    const { data, error } = await supabase
-      .from('listing')
-      .select()
-      setIsLoading(false)
-      setReturnedProperties(data)
+    if (!user) {
+      query = query.eq('active', true); // Only show active listings if no user
+    }
 
-  }
+    const { data, error } = await query;
 
-  
-  useEffect(()=>{
+    setIsLoading(false);
+
+    if (error) {
+      console.error('Error fetching properties:', error);
+      return;
+    }
+
+    setReturnedProperties(data);
+  };
+
+
+
+  useEffect(() => {
     fetchProperties()
-  },[])
+  }, [])
 
   // Update filters dynamically
   const handleInputChange = (e) => {
@@ -76,7 +75,6 @@ const Properties = () => {
 
   return (
     <div className="box-border">
-      {/* <Header /> */}
       <div className="px-3 md:px-8">
         <form className="flex justify-between gap-16 w-full mx-auto py-7 border-b-2 sm:flex-col md:flex-col lg:flex-row ">
           <div className="lg:w-[70%] gap-4 container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-auto">
@@ -139,6 +137,9 @@ const Properties = () => {
             All Our Property Listings
           </h2>
         </div>
+        {
+          user && <NotificationBanner bgColor="bg-blue-50" textColor="text-blue-600" text="Note: To edit click on the property!"/>
+        }
 
         {/* Properties */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16 place-items-center">
