@@ -55,6 +55,8 @@ const Properties = () => {
       return;
     }
 
+ 
+
     setReturnedProperties(data);
   };
 
@@ -147,7 +149,7 @@ const Properties = () => {
             ? [1, 2, 3, 4].map((_, index) => (
               <PropertyTileLoading key={index} />
             ))
-            : returnedProperties?.map((property, index) => (
+            : Array(200).fill(returnedProperties).flat().map((property, index) => (
               <PropertyCard key={index} property={property} />
             ))}
         </div>
